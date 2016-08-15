@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Hospital</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Theme CSS -->
+    <link href="css/agency.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+     <script src="node_modules/angular/angular.js"></script>
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+     <link href="<c:url value='/static/css/app.css' />" rel="stylesheet">
+<script>
+            //PRIMERO GENERAMOS UN MODULO
+            angular.module("primero",[])
+                    .controller("especialidades",function ($scope,$http){
+                   
+                $scope.id_es;
+                $scope.nombre;
+                $scope.area;
+                $scope.hospital;
+                $scope.especialidades=[];
+             var miurl="hhajshhsa";
+              $http.get('http://localhost:9999/especialidad').success(function(json){
+                    $scope.especialidades=json;
+                  
+              });
+         
+                //lA REFERENCIA $HTTP SIRVE PARA COMUNICARNOS CON EL SERVICIO WEB POR MEDIO DE SU URI
+             
+                $scope.buscar=function(){
+                $http.get('http://localhost:9999/especialidad').success(function(json){  //json puede ser otro nombre
+                    $scope.id_es=json[$scope.id].id;            
+                    $scope.nombre=json[$scope.id].nombre;
+                    $scope.area=json[$scope.id].area;
+                    $scope.hospital=json[$scope.id].hospital;
+                      
+                    
+                });
+            }
+            //metodo para guardar
+            $scope.miNombre;
+            $scope.miArea;
+            $scope.miHospital;
+            
+            
+            $scope.guardar=function(){
+                $http.post('http://localhost:9999/especialidades/'+$scope.miNombre+'/'+$scope.miArea+'/'+$scope.miHospital).success(function(datos) {
+                    
+                        $scope.estatusMensaje=datos+" : "+$scope.miNombre;
+                    
+                        
+                    });
+                }
+                //metodo para buscar por id
+                $scope.miId;
+                 $scope.buscarPorId=function(){ 
+                $http.get('http://localhost:9999/especialidades/'+$scope.miId).success(function(datos) {
+                    
+                        $scope.mensajeId=datos+" : "+$scope.miId;
+                    
+                        
+                    });
+                }
+            $scope.miNombre;
+            $scope.miId
+                 $scope.actualizar=function(){
+                $http.get('http://localhost:9999/actualizar-especialidad/'+$scope.miId+'/'+$scope.miNombre).success(function(datos) {
+                    
+                        $scope.mensajeAct=datos+" : "+$scope.miNombre;
+                    
+                        
+                    });
+                }
+             $scope.miId_e;   
+             $scope.miNombre;
+             $scope.miArea;
+             $scope.miHospital;
+                 $scope.borrarespecialidades=function(){
+                $http.delete('http://localhost:9999/especialidades/'+$scope.miId_e+'/'+$scope.miNombre+'/'+$scope.miArea+'/'+$scope.miHospital).success(function(datos) {
+                    
+                        $scope.mensajeEli=datos+" : "+$scope.miId_e;
+                    
+                        
+                    });
+                }
+                
+                
+                
+                    }).controller("doctores",function($scope,$http){
+  $scope.estilo2={
+  color:"black",
+  backgroundColor:'lightblue',
+  border:'1px solid grey ',
+                   }  
+                        //declaramos las variables que seran pasadas al servicio
+                        //que son id_departamento y nombre del empleado
+                        $scope.id_especialidad;
+                        $scope.nombre;
+                        $scope.cedula;
+                        $scope.telefono;
+                        $scope.direccion;
+                        $scope.mensaje;
+                        //invocamos el servicio
+                 $scope.buscar=function(){
+                $http.post('http://localhost:9999/doctores').success(function(json){  //json puede ser otro nombre
+                    $scope.id_especialidad=json[$scope.id].nombre;
+                    $scope.nombre=json[$scope.id].cedula;
+                     $scope.cedula=json[$scope.id].telefono;
+                     $scope.telefono=json[$scope.id].direccion;
+                     $scope.direccion=json[$scope.id].mensaje;
+                      
+                    
+                });
+            }
+                $scope.guardardoctores=function(){
+                     $http.post('http://localhost:9999/doctores/' +$scope.miid_especialidad + '/' + 
+                     $scope.minombre +'/'+ $scope.micedula+'/'+ $scope.mitelefono+'/'+ $scope.midireccion).success(function(datos){
+                            $scope.mensaje=datos +" : "+$scope.miNombre;
+                    ;
+                        });
+                }  
+                  $scope.miId_doc;
+                 $scope.buscarPorId=function(){ 
+                $http.get('http://localhost:9999/doctores/'+$scope.miId_doc).success(function(datos) {
+                    
+                        $scope.mensajeIdDoc=datos+" : "+$scope.miId_doc;
+                    
+                        
+                    });
+                }
+            $scope.miId_doc;
+            $scope.miNombre;
+            $scope.miCedula;
+            $scope.miTelefono;
+            $scope.miDireccion;
+                 $scope.actualizarDoc=function(){
+                $http.put('http://localhost:9999/doctores/'+$scope.miId_doc+'/'+$scope.miNombre+'/'+$scope.miCedula+'/'+$scope.miTelefono+'/'+$scope.miDireccion).success(function(datos) {
+                    
+                        $scope.mensajeActDoc=datos+" : "+$scope.miId_doc;
+                    
+                        
+                    });
+                }
+            $scope.miId_doc;
+            $scope.miNombre;
+            $scope.miCedula;
+            $scope.miTelefono;
+            $scope.miDireccion;
+                 $scope.borrardoctor=function(){ 
+                $http.delete('http://localhost:9999/doctores/'+$scope.miId_doc+'/'+$scope.miNombre+'/'+$scope.miCedula+'/'+$scope.miTelefono+'/'+$scope.miDireccion).success(function(datos) {
+                    
+                        $scope.mensajeElDoc=datos+" : "+$scope.miId_doc;
+                    
+                        
+                    });
+                }
+               
+                });
+        </script>
+</head>
+
+<body ng-app="primero" id="page-top" class="index">
+
+    <!-- Navigation -->
+    <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Hospital Ing.</a>
+                
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    
+                    <li>
+                        <a class="page-scroll" href="#guardar_Especialidad">guardar_Especialidad</a>
+                    </li>
+                    
+                    <li>
+                        <a class="page-scroll" href="#buscarid_Especialidad">buscarid_Especialidad</a>
+                    </li>
+                    
+                    <li>
+                        <a class="page-scroll" href="#buscarTodas_Especialidad">buscarTodas_Especialidad</a>
+                    </li>
+                    
+                    <li>
+                        <a class="page-scroll" href="#actualizar_Especialidad">actualizar_Especialidad</a>
+                    </li>
+                    
+                    <li>
+                        <a class="page-scroll" href="#eliminar_Especialidad">eliminar_Especialidad</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#guardar_Doctor">guardar_Doctor</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#buscar_por_id_Doctor">buscar_por_id_Doctor</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#buscar todas_Doctor">buscar todas_Doctor</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#actualizarDoctor">actualizarDoctor</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#eliminarDoctor">eliminarDoctor</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="intro-text">
+                
+                <div class="intro-heading">Sistema de control de un hospital</div>
+                <h3 class="section-subheading text-muted">Misión: Hospital Regional de la zona centro del país que proporciona servicios de salud de alta especialidad con gran calidad y calidez, en las especialidades médicas, quirúrgicas y de apoyo al diagnóstico y tratamiento, por lo que tiene el reconocimiento de la sociedad mexicana.</h3>
+                 <h3 class="section-subheading text-muted">Visión: Ser un centro hospitalario con reconocimiento nacional y de referencia internacional, generador de modelos de atención en las especialidades médicas, en la enseñanza de la medicina y en proyectos de investigación con alto rigor científico.</h3>
+            </div>
+        </div>
+    </header>
+     <!-- guardar ESPECIALIDAD-->
+    
+     <section id="guardar_Especialidad" ng-controller="especialidades">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">guardar_Especialidad</h2>
+                    <h3 class="section-subheading text-muted">Datos generales</h3>
+                </div>
+            </div>
+            <div class="row text-center">
+               <form class="form-horizontal">
+  <div class="form-group">
+    <label for="inputNombre" class="col-sm-2 control-label">Nombre del la especialidad</label>
+    <div class="col-sm-10">
+        <input type="Nombre" class="form-control" id="inputNombre" ng-model="miNombre" placeholder="Nombre">
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputArea" class="col-sm-2 control-label">Area</label>
+    <div class="col-sm-10">
+        <input type="area" class="form-control" id="inputArea" ng-model="miArea" placeholder="Area">
+    </div> 
+    </div>
+   
+  <div class="form-group">
+    <label for="inputHospital" class="col-sm-2 control-label">Hospital</label>
+    <div class="col-sm-10">
+        <input type="hospital" class="form-control" id="inputHospital" ng-model="miHospital"placeholder="Hospital">
+    </div>
+  </div>
+   
+   <div class="form-group">
+        <div class="col-lg-12 text-center">
+            <button ng-click="guardar()"type="button" class="btn btn-primary">Guardar informacion</button>
+            {{estatusMensaje}}
+    </div>
+  </div>
+</form>
+            </div>
+        </div>
+    </section>
+
+    <!-- buscar id -->
+    <section id="buscarid_Especialidad" ng-controller="especialidades">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">buscarid_Especialidad</h2>
+                    <h3 class="section-subheading text-muted">Especialidad</h3>
+                </div>
+            </div>
+            <div class="row text-center">
+               <form class="form-horizontal">
+  <div class="form-group">
+    <label for="inputId" class="col-sm-2 control-label">buscar por id</label>
+    <div class="col-sm-10">
+        <input type="Id" class="form-control" id="inputId"ng-model="miId" placeholder="id">
+    </div>
+  </div>
+     <div class="form-group">
+        <div class="col-lg-12 text-center">
+            <button ng-click="buscarid_Especialidad()"type="button" class="btn btn-primary">Buscar id</button>
+            {{mensajeId}}
+    </div>
+  </div>
+</form>
+ </div>
+        </div>
+    </section>
+    <!-- buscar -->
+    <div>
+    <section id="buscarTodas_Especialidad" ng-controller="especialidades">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">buscarTodas_Especialidad</h2>
+                    <h3 class="section-subheading text-muted">Buscar por medio de cualquier dato</h3>
+                </div>
+            </div>
+           
+       <table class="table table-bordered table-striped">
+                <tr class="success">
+                    <th>Id_especialidad</th>
+                    <th>Nombre</th>
+                    <th>Area</th>
+                    <th>Hospital</th>
+                </tr>
+                <tr ng-repeat="especialidad in especialidades">
+                    <td>{{especialidad.id}}</td>
+                    <td>{{especialidad.nombre}}</td>
+                    <td>{{especialidad.area}}</td>
+                    <td>{{especialidad.hospital}}</td>
+                </tr>
+                    
+            </table>
+    </section>
+</div>
+    <!-- actualizar -->
+    <section id="actualizar_Especialidad" ng-controller="especialidades">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">actualizar_Especialidad</h2>
+                    <h3 class="section-subheading text-muted">Actualizar informacion respcto a las especialidades.</h3>
+                </div>
+            </div>
+            <div class="row text-center">
+               <form class="form-horizontal">
+  <div class="form-group">
+    <label for="inputNombre" class="col-sm-2 control-label">ID</label>
+    <div class="col-sm-10">
+        <input type="Nombre" class="form-control" id="inputId" ng-model="miId" placeholder="Id">
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputArea" class="col-sm-2 control-label">Nombre</label>
+    <div class="col-sm-10">
+        <input type="area" class="form-control" id="inputNombre" ng-model="miNombre" placeholder="Nombre">
+    </div> 
+    </div>
+   
+   
+   <div class="form-group">
+        <div class="col-lg-12 text-center">
+            <button ng-click="actualizar()"type="button" class="btn btn-primary">Actualizar datos</button>
+            {{mensajeAct}}
+            {{esecialidad.id}}
+            {{especialidad.nombre}}
+    </div>
+  </div>
+</form>
+            <!-- borrar -->
+            <section id="eliminar_Especialidad" ng-controller="especialidades">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">eliminar_Especialidad</h2>
+                    <h3 class="section-subheading text-muted">Eliminar informacion del doctor.</h3>
+                </div>
+            </div>
+            <div class="row text-center">
+               <form class="form-horizontal">
+    <div class="form-group">
+    <label for="inputId" class="col-sm-2 control-label">Id</label>
+    <div class="col-sm-10">
+        <input type="Id" class="form-control" id="inputId"ng-model="miId" placeholder="id">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputNombre" class="col-sm-2 control-label">Nombre del la especialidad</label>
+    <div class="col-sm-10">
+        <input type="Nombre" class="form-control" id="inputNombre" ng-model="miNombre" placeholder="Nombre">
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputArea" class="col-sm-2 control-label">Area</label>
+    <div class="col-sm-10">
+        <input type="area" class="form-control" id="inputArea" ng-model="miArea" placeholder="Area">
+    </div> 
+    </div>
+   
+  <div class="form-group">
+    <label for="inputHospital" class="col-sm-2 control-label">Hospital</label>
+    <div class="col-sm-10">
+        <input type="hospital" class="form-control" id="inputHospital" ng-model="miHospital"placeholder="Hospital">
+    </div>
+  </div>
+   <div class="form-group">
+        <div class="col-lg-12 text-center">
+            <button ng-click="borrarespecialidades()"type="button" class="btn btn-primary">Eliminar datos</button>
+            {{mensajeEli}}
+    </div>
+  </div>
+</form>
+
+   
+
+    <!-- guardar DOCTOR-->
+    
+    <section id="guardar_Doctor">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">guardar_Doctor</h2>
+                    <h3 class="section-subheading text-muted">Informacion del doctor</h3>
+                </div>
+            </div>
+            <div class="row text-center">
+               <form class="form-horizontal">
+  <div class="form-group">
+    <label for="inputNombre" class="col-sm-2 control-label">Nombre del doctor</label>
+    <div class="col-sm-10">
+        <input type="Nombre" class="form-control" id="inputNombre" ng-model="miNombre" placeholder="Nombre">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEspecialidad" class="col-sm-2 control-label">Especialidad</label>
+    <div class="col-sm-10">
+        <input type="especialidad" class="form-control" id="inputEspecialidad" ng-model="miEspecialidad"placeholder="Especialidad">
+    </div>
+  </div>
+    <div class="form-group">
+    <label for="inputCedula" class="col-sm-2 control-label">Cedula profesional</label>
+    <div class="col-sm-10">
+        <input type="cedula" class="form-control" id="inputCedula" ng-model="miCedula" placeholder="Cedula">
+    </div> 
+    </div>
+    <div class="form-group">
+    <label for="inputTelefono" class="col-sm-2 control-label">Telefono</label>
+    <div class="col-sm-10">
+      <input type="telefono" class="form-control" id="inputTelefono" ng-model="miTelefono" placeholder="Telefono">
+    </div>
+    </div>
+      <div class="form-group">
+    <label for="inputDireccion" class="col-sm-2 control-label">Direccion</label>
+    <div class="col-sm-10">
+        <input type="direccion" class="form-control" id="inputDireccion" ng-model="miDireccion"placeholder="Direccion">
+    </div>
+    </div>   
+   <div class="form-group">
+        <div class="col-lg-12 text-center">
+            <button ng-click="guardardoctores()"type="button" class="btn btn-primary">Guardar informacion</button>
+            {{mensaje}}
+    </div>
+  </div>
+</form>
+            </div>
+        </div>
+    </section>
+
+    <!-- buscar id -->
+    <section id="buscar_por_id_Doctor">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">buscar_por_id_Doctor</h2>
+                    <h3 class="section-subheading text-muted">Id del doctor</h3>
+                </div>
+            </div>
+            <div class="row text-center">
+               <form class="form-horizontal">
+  <div class="form-group">
+    <label for="inputId" class="col-sm-2 control-label">Id del doctor</label>
+    <div class="col-sm-10">
+        <input type="Id" class="form-control" id="inputId"ng-model="miId" placeholder="id">
+    </div>
+  </div>
+     <div class="form-group">
+        <div class="col-lg-12 text-center">
+            <button ng-click="buscar_por_id()"type="button" class="btn btn-primary">Buscar informacion</button>
+            {{mensajeIdDoc}}
+    </div>
+  </div>
+</form>
+ </div>
+        </div>
+    </section>
+    <!-- buscar -->
+    <section id="buscar todas_Doctor" ng-controller="doctores">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">buscar todas_Doctor</h2>
+                    <h3 class="section-subheading text-muted">Buscar</h3>
+                </div>
+            </div>
+           
+       <table class="table table-bordered table-striped">
+                <tr class="success">
+                    <th>Espe</th>
+                    <th>Nombre</th>
+                    <th>Cedula</th>
+                    <th>Telefonos</th>
+                    <th>Especialidades</th>
+                </tr>
+                <tr ng-repeat="doctores in doctor">
+                    <td>{{doctores.espe}}</td>
+                    <td>{{doctores.nombre}}</td>
+                    <td>{{doctores.cedula}}</td>
+                    <td>{{doctores.telefomos}}</td>
+                    <td>{{doctores.especialidades}}</td>
+                    
+                </tr>
+                    
+            </table>
+    </section>
+    
+       
+    </section>
+
+    <!-- actualizar -->
+    <section id="actualizarDoctor">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">actualizarDoctor</h2>
+                    <h3 class="section-subheading text-muted">Actualizar informacion del doctor.</h3>
+                </div>
+            </div>
+             <form class="form-horizontal">
+    <div class="form-group">
+    <label for="inputId_doctor" class="col-sm-2 control-label">Id de la especialidad del doctor</label>
+    <div class="col-sm-10">
+        <input type="Id" class="form-control" id="inputNombre" ng-model="miId" placeholder="Id">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputNombre" class="col-sm-2 control-label">Nombre del doctor</label>
+    <div class="col-sm-10">
+        <input type="Nombre" class="form-control" id="inputNombre"ng-model="miNombre" placeholder="Nombre">
+    </div>
+  </div>
+    <div class="form-group">
+    <label for="inputCedula" class="col-sm-2 control-label">Cedula profesional</label>
+    <div class="col-sm-10">
+        <input type="cedula" class="form-control" id="inputCedula" ng-model="miCedula" placeholder="Cedula">
+    </div> 
+    </div>
+    <div class="form-group">
+    <label for="inputTelefono" class="col-sm-2 control-label">Telefono</label>
+    <div class="col-sm-10">
+        <input type="telefono" class="form-control" id="inputTelefono" ng-model="miTelefono"placeholder="Telefono">
+    </div>
+    </div>
+      <div class="form-group">
+    <label for="inputDireccion" class="col-sm-2 control-label">Direccion</label>
+    <div class="col-sm-10">
+        <input type="direccion" class="form-control" id="inputDireccion" ng-model="miDireccion" placeholder="Direccion">
+    </div>
+    </div>   
+   <div class="form-group">
+        <div class="col-lg-12 text-center">
+            <button ng-click="actualizar()"type="button" class="btn btn-primary">Actualizar datos</button>
+            {{mensajeActDoc}}
+    </div>
+  </div>
+</form>
+            <!-- borrar -->
+            <section id="eliminarDoctor">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">eliminarDoctor</h2>
+                    <h3 class="section-subheading text-muted">Eliminar informacion del doctor.</h3>
+                </div>
+            </div>
+             <form class="form-horizontal">
+    <div class="form-group">
+    <label for="inputId_doctor" class="col-sm-2 control-label">Id de la especialidad del doctor</label>
+    <div class="col-sm-10">
+        <input type="Id" class="form-control" id="inputNombre" ng-model="miId" placeholder="Id">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputNombre" class="col-sm-2 control-label">Nombre del doctor</label>
+    <div class="col-sm-10">
+        <input type="Nombre" class="form-control" id="inputNombre" ng-model="miNombre" placeholder="Nombre">
+    </div>
+  </div>
+    <div class="form-group">
+    <label for="inputCedula" class="col-sm-2 control-label">Cedula profesional</label>
+    <div class="col-sm-10">
+        <input type="cedula" class="form-control" id="inputCedula" ng-model="miCedula"placeholder="Cedula">
+    </div> 
+    </div>
+    <div class="form-group">
+    <label for="inputTelefono" class="col-sm-2 control-label">Telefono</label>
+    <div class="col-sm-10">
+        <input type="telefono" class="form-control" id="inputTelefono"  ng-model="miTelefono"placeholder="Telefono">
+    </div>
+    </div>
+      <div class="form-group">
+    <label for="inputDireccion" class="col-sm-2 control-label">Direccion</label>
+    <div class="col-sm-10">
+        <input type="direccion" class="form-control" id="inputDireccion" ng-model="miDireccion"placeholder="Direccion">
+    </div>
+    </div>   
+   <div class="form-group">
+        <div class="col-lg-12 text-center">
+            <button ng-click="eliminar()"type="button" class="btn btn-primary">Eliminar datos</button>
+            {{mensajeElDoc}}
+    </div>
+  </div>
+</form>
+
+   
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="js/agency.min.js"></script>
+
+        </body>
+
+</html>
